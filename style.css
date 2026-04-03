@@ -1,0 +1,338 @@
+/* ============================================================
+   htl.ing – Global Stylesheet
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --color-primary:   #c0392b;   /* Austrian red */
+  --color-secondary: #2c3e50;
+  --color-bg:        #f9f9f9;
+  --color-card:      #ffffff;
+  --color-text:      #2c3e50;
+  --color-muted:     #6c757d;
+  --color-border:    #dee2e6;
+  --radius:          8px;
+  --shadow:          0 2px 12px rgba(0,0,0,.08);
+  --max-width:       860px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+header {
+  background: var(--color-secondary);
+  color: #fff;
+  padding: 1rem 1.5rem;
+}
+
+header .header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+header .logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+header .logo span {
+  color: var(--color-primary);
+}
+
+nav a {
+  color: #ccc;
+  text-decoration: none;
+  margin-left: 1.25rem;
+  font-size: .95rem;
+  transition: color .2s;
+}
+
+nav a:hover,
+nav a[aria-current="page"] {
+  color: #fff;
+}
+
+/* ── Hero ────────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, var(--color-secondary) 60%, var(--color-primary));
+  color: #fff;
+  padding: 4rem 1.5rem 3.5rem;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  margin-bottom: .5rem;
+}
+
+.hero .subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  opacity: .85;
+  margin-bottom: 2rem;
+}
+
+.hero .badge {
+  display: inline-block;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 100px;
+  padding: .35rem 1rem;
+  font-size: .85rem;
+  letter-spacing: .5px;
+  margin-bottom: 2rem;
+}
+
+/* ── Main / Sections ─────────────────────────────────────── */
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+section {
+  margin-bottom: 3rem;
+}
+
+section + section {
+  border-top: 1px solid var(--color-border);
+  padding-top: 2.5rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--color-secondary);
+}
+
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: .5rem;
+  color: var(--color-secondary);
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: .4rem;
+  color: var(--color-secondary);
+}
+
+p {
+  margin-bottom: .9rem;
+}
+
+ul, ol {
+  padding-left: 1.4rem;
+  margin-bottom: .9rem;
+}
+
+li {
+  margin-bottom: .35rem;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #96281b;
+}
+
+/* ── Cards ───────────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.card .icon {
+  font-size: 2rem;
+  margin-bottom: .6rem;
+}
+
+/* ── Steps ───────────────────────────────────────────────── */
+.steps {
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+  margin-top: 1.25rem;
+}
+
+.steps li {
+  counter-increment: step;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+  align-items: flex-start;
+}
+
+.steps li::before {
+  content: counter(step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: .9rem;
+  flex-shrink: 0;
+  margin-top: .15rem;
+}
+
+/* ── CTA Button ──────────────────────────────────────────── */
+.btn {
+  display: inline-block;
+  padding: .75rem 1.75rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, transform .1s;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #96281b;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  background: transparent;
+}
+
+.btn-outline:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: 1.5rem;
+}
+
+/* ── Language Toggle ─────────────────────────────────────── */
+.lang-toggle {
+  display: flex;
+  gap: .5rem;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.lang-toggle button {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: .3rem .75rem;
+  font-size: .85rem;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.lang-toggle button.active,
+.lang-toggle button:hover {
+  background: var(--color-secondary);
+  color: #fff;
+  border-color: var(--color-secondary);
+}
+
+/* hide/show language sections */
+[lang="de"], [lang="en"] {
+  display: none;
+}
+[lang="de"].visible, [lang="en"].visible {
+  display: block;
+}
+
+/* ── Impressum ───────────────────────────────────────────── */
+.impressum-block {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+.impressum-block address {
+  font-style: normal;
+  line-height: 1.9;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+footer {
+  background: var(--color-secondary);
+  color: #aaa;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  font-size: .85rem;
+}
+
+footer a {
+  color: #ccc;
+}
+
+footer a:hover {
+  color: #fff;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  header .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  nav a:first-child {
+    margin-left: 0;
+  }
+}
