@@ -284,10 +284,10 @@ a:hover {
 }
 
 /* hide/show language sections */
-[lang="de"], [lang="en"] {
+main [lang="de"], main [lang="en"] {
   display: none;
 }
-[lang="de"].visible, [lang="en"].visible {
+main [lang="de"].visible, main [lang="en"].visible {
   display: block;
 }
 
