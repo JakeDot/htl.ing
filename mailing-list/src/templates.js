@@ -85,22 +85,6 @@ function notSubscribedMail() {
   };
 }
 
-function howToSubscribeMail() {
-  return {
-    subject: `Re: ${config.listName}`,
-    text: [
-      `Diese Adresse ist bei ${config.listAddress} (noch) nicht angemeldet, daher wurde`,
-      `deine Nachricht nicht an die Liste weitergeleitet.`,
-      ``,
-      `Um dich anzumelden, sende eine E-Mail an ${config.signupAddress},`,
-      `oder verwende das Formular auf https://htl.ing/.`,
-      ``,
-      `--`,
-      `${config.listName} <${config.listAddress}>`,
-    ].join('\n'),
-  };
-}
-
 function listFooterText(unsubscribeUrl) {
   return [
     ``,
@@ -117,6 +101,5 @@ module.exports = {
   alreadySubscribedMail,
   unsubscribedMail,
   notSubscribedMail,
-  howToSubscribeMail,
   listFooterText,
 };

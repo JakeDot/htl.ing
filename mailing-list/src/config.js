@@ -53,6 +53,22 @@ const config = {
   // Header used to mark mail that already passed through the list, to
   // prevent re-broadcast loops and to recognise our own automated mail.
   loopHeader: 'x-htling-list',
+
+  // Reject inbound list posts that fail DMARC against a sending domain's
+  // own p=reject policy (protects list members from spoofed "from" a
+  // subscriber's address). Fails open on DNS/lookup errors and on
+  // p=none/p=quarantine policies.
+  dmarcEnforce: bool(process.env.DMARC_ENFORCE, true),
+
+  // Inbound abuse limits (sliding window, in-memory). Keeps a compromised
+  // or malicious sender from flooding the list, and stops "subscription
+  // bombing" (repeatedly triggering confirmation mail to a third party).
+  rateLimits: {
+    listPostPerSenderPerHour: parseInt(process.env.RATE_LIMIT_LIST_POST || '40', 10),
+    signupPerTargetPerHour: parseInt(process.env.RATE_LIMIT_SIGNUP || '3', 10),
+    signoutPerTargetPerHour: parseInt(process.env.RATE_LIMIT_SIGNOUT || '5', 10),
+    connectionsPerIpPerHour: parseInt(process.env.RATE_LIMIT_IP || '120', 10),
+  },
 };
 
 module.exports = config;
