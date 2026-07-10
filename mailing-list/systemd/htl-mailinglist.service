@@ -1,0 +1,23 @@
+[Unit]
+Description=htl.ing mailing list server (ing@htl.ing)
+After=network.target
+
+[Service]
+Type=simple
+User=htl-mailinglist
+Group=htl-mailinglist
+WorkingDirectory=/opt/htl-mailinglist
+EnvironmentFile=/opt/htl-mailinglist/.env
+ExecStart=/usr/bin/node /opt/htl-mailinglist/src/index.js
+Restart=on-failure
+RestartSec=5
+
+# Binding to port 25/587 as a non-root user requires this capability.
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/htl-mailinglist/data
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
