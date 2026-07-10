@@ -16,7 +16,7 @@
       <a href="index.html" class="logo">htl<span>.ing</span></a>
       <nav aria-label="Hauptnavigation">
         <a href="index.html" aria-current="page">Home</a>
-        <a href="#mailingliste">Mailingliste</a>
+        <a href="#mailingliste-de" id="nav-mailingliste">Mailingliste</a>
         <a href="impressum.html">Impressum</a>
       </nav>
     </div>
@@ -147,7 +147,7 @@
         </div>
       </section>
 
-      <section id="mailingliste" aria-labelledby="de-mailingliste-heading">
+      <section id="mailingliste-de" aria-labelledby="de-mailingliste-heading">
         <h2 id="de-mailingliste-heading">Mailingliste ing@htl.ing</h2>
         <p>
           Über die Mailingliste <strong>ing@htl.ing</strong> tauschen sich Ingenieurinnen und
@@ -282,7 +282,7 @@
         </div>
       </section>
 
-      <section aria-labelledby="en-mailingliste-heading">
+      <section id="mailingliste-en" aria-labelledby="en-mailingliste-heading">
         <h2 id="en-mailingliste-heading">Mailing list ing@htl.ing</h2>
         <p>
           The mailing list <strong>ing@htl.ing</strong> connects engineers and anyone interested
@@ -320,6 +320,8 @@
 
   <script>
     // ── Language toggle ──────────────────────────────────────
+    var navMailinglisteLabels = { de: 'Mailingliste', en: 'Mailing list' };
+
     function setLang(lang) {
       ['de', 'en'].forEach(function(l) {
         document.getElementById('content-' + l).classList.toggle('visible', l === lang);
@@ -328,6 +330,9 @@
         btn.setAttribute('aria-pressed', l === lang ? 'true' : 'false');
       });
       document.documentElement.lang = lang;
+      var navMailingliste = document.getElementById('nav-mailingliste');
+      navMailingliste.href = '#mailingliste-' + lang;
+      navMailingliste.textContent = navMailinglisteLabels[lang];
       try { localStorage.setItem('htling-lang', lang); } catch(e) {}
     }
 

@@ -6,23 +6,18 @@ const config = require('./config');
 const db = require('./db');
 const mailer = require('./mailer');
 const templates = require('./templates');
+const { RateLimiter } = require('./ratelimit');
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Minimal in-memory rate limiter: N requests per window per IP.
-// Good enough for a small list's signup form; the process restarts
-// clear it, which is an acceptable trade-off here.
+// Express middleware wrapping the shared sliding-window RateLimiter.
 function rateLimiter({ windowMs, max }) {
-  const hits = new Map();
+  const limiter = new RateLimiter(windowMs);
   return (req, res, next) => {
     const ip = req.ip || 'unknown';
-    const now = Date.now();
-    const timestamps = (hits.get(ip) || []).filter((t) => now - t < windowMs);
-    if (timestamps.length >= max) {
+    if (!limiter.allow(ip, max)) {
       return res.status(429).json({ ok: false, error: 'Zu viele Anfragen, bitte später erneut versuchen.' });
     }
-    timestamps.push(now);
-    hits.set(ip, timestamps);
     next();
   };
 }

@@ -7,6 +7,22 @@ class RateLimiter {
   constructor(windowMs) {
     this.windowMs = windowMs;
     this.hits = new Map();
+    // Without this, `hits` would grow forever as new IPs/addresses show
+    // up, even after their entries have expired.
+    this.cleanupTimer = setInterval(() => this.cleanup(), windowMs);
+    this.cleanupTimer.unref();
+  }
+
+  cleanup() {
+    const now = Date.now();
+    for (const [key, timestamps] of this.hits.entries()) {
+      const valid = timestamps.filter((t) => now - t < this.windowMs);
+      if (valid.length === 0) {
+        this.hits.delete(key);
+      } else {
+        this.hits.set(key, valid);
+      }
+    }
   }
 
   /**

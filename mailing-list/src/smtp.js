@@ -76,11 +76,18 @@ async function relayToList(parsed, fromAddr) {
   );
   const tag = config.listAddress.split('@')[0];
   const subjectBase = sanitizeHeaderValue(parsed.subject || '(kein Betreff)');
-  const subject = subjectBase.toLowerCase().startsWith(`[${tag}]`)
+  const tagLower = `[${tag}]`.toLowerCase();
+  const subject = subjectBase.toLowerCase().includes(tagLower)
     ? subjectBase
     : `[${tag}] ${subjectBase}`;
   const bodyText = parsed.text || (parsed.html ? stripHtml(parsed.html) : '');
   const listIdHeader = `${config.listName} <${config.listAddress.replace('@', '.')}>`;
+  const attachments = (parsed.attachments || []).map((att) => ({
+    filename: att.filename,
+    content: att.content,
+    contentType: att.contentType,
+    cid: att.cid,
+  }));
 
   const CONCURRENCY = 10;
   for (let i = 0; i < subscribers.length; i += CONCURRENCY) {
@@ -95,6 +102,7 @@ async function relayToList(parsed, fromAddr) {
             to: sub.email,
             subject,
             text: bodyText + templates.listFooterText(unsubscribeUrl),
+            attachments,
             headers: {
               'List-Id': listIdHeader,
               'List-Unsubscribe': `<${unsubscribeUrl}>, <mailto:${config.signoutAddress}>`,
@@ -186,9 +194,10 @@ function onData(stream, session, callback) {
         return callback(err);
       }
       console.error('[smtp] error processing inbound message:', err);
-      // Accept anyway — a 4xx/5xx here just causes the sender's MTA to
-      // retry/bounce, which won't fix a parsing bug on our side.
-      callback();
+      // Tell the sending MTA to retry later instead of silently
+      // swallowing the message — e.g. the outbound relay used to send
+      // confirmations may be temporarily down.
+      callback(rejectionError('Temporary local processing error, please try again later', 451));
     });
 }
 

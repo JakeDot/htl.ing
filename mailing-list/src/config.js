@@ -9,7 +9,7 @@ function bool(value, fallback) {
 }
 
 const config = {
-  domain: process.env.DOMAIN || 'htl.ing',
+  domain: (process.env.DOMAIN || 'htl.ing').toLowerCase(),
   listAddress: (process.env.LIST_ADDRESS || 'ing@htl.ing').toLowerCase(),
   signupAddress: (process.env.SIGNUP_ADDRESS || 'anmeldung@htl.ing').toLowerCase(),
   signoutAddress: (process.env.SIGNOUT_ADDRESS || 'abmeldung@htl.ing').toLowerCase(),
@@ -48,7 +48,7 @@ const config = {
   },
 
   dataDir: path.resolve(process.env.DATA_DIR || path.join(__dirname, '..', 'data')),
-  adminEmail: process.env.ADMIN_EMAIL || `postmaster@${process.env.DOMAIN || 'htl.ing'}`,
+  adminEmail: process.env.ADMIN_EMAIL || `postmaster@${(process.env.DOMAIN || 'htl.ing').toLowerCase()}`,
 
   // Header used to mark mail that already passed through the list, to
   // prevent re-broadcast loops and to recognise our own automated mail.
